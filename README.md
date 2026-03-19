@@ -22,3 +22,9 @@ trans http://localhost:3000/api/transactions
 3. Paleisti komanda: npm run dev
 
 Frontend - http://localhost:5173
+
+
+
+DB paleidimui naudoti: docker compose up
+
+DB duomenu uzpildymui: npx prisma db seed
