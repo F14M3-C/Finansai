@@ -8,6 +8,7 @@ import "dotenv/config";
 
 const { SESSION_SECRET } = process.env;
 import transactionRoutes from "./routes/transcationRoutes";
+const PORT = 3000;
 
 const app = express();
 
@@ -30,9 +31,7 @@ app.use(passport.authenticate("session"));
 app.use(express.json());
 app.use("/api/transactions", transactionRoutes);
 
-const PORT = 3000;
-
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port: ${PORT}`);
