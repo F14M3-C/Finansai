@@ -5,6 +5,31 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [incomeForm, setIncomeForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
   const [expenseForm, setExpenseForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [editForm, setEditForm] = useState({ title: "", amount: "", category: "", date: "", type: "" });
+
+  const openEdit = (item) => {
+    setEditForm(item);
+    document.getElementById("edit_modal").showModal();
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    // Mockup — just close
+    document.getElementById("edit_modal").close();
+    setEditForm({ title: "", amount: "", category: "", date: "", type: "" });
+  };
+
+  const confirmDelete = (name) => {
+    setDeleteTarget(name);
+    document.getElementById("delete_modal").showModal();
+  };
+
+  const handleDelete = () => {
+    // Mockup — just close
+    document.getElementById("delete_modal").close();
+    setDeleteTarget(null);
+  };
 
   const handleLogout = () => {
     navigate("/login");
@@ -201,7 +226,7 @@ export default function Dashboard() {
                           <td>
                             <div className="flex items-center gap-3">
                               <div className="avatar placeholder">
-                                <div className="bg-primary/10 text-primary rounded w-10">
+                                <div className="bg-primary/10 text-primary rounded w-10 h-10 flex items-center justify-center">
                                   <span className="material-symbols-outlined text-xl">work</span>
                                 </div>
                               </div>
@@ -216,8 +241,8 @@ export default function Dashboard() {
                           <td className="text-right font-black text-emerald-600">+€2,500.00</td>
                           <td className="text-center">
                             <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti"><span className="material-symbols-outlined text-sm">edit</span></button>
-                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti"><span className="material-symbols-outlined text-sm">delete</span></button>
+                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: 'Atlyginimas (UAB Tech)', amount: '2500.00', category: 'darbas', date: '2025-10-05', type: 'income' })}><span className="material-symbols-outlined text-sm">edit</span></button>
+                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete('Atlyginimas (UAB Tech)')}><span className="material-symbols-outlined text-sm">delete</span></button>
                             </div>
                           </td>
                         </tr>
@@ -225,7 +250,7 @@ export default function Dashboard() {
                           <td>
                             <div className="flex items-center gap-3">
                               <div className="avatar placeholder">
-                                <div className="bg-error/10 text-error rounded w-10">
+                                <div className="bg-error/10 text-error rounded w-10 h-10 flex items-center justify-center">
                                   <span className="material-symbols-outlined text-xl">shopping_bag</span>
                                 </div>
                               </div>
@@ -240,8 +265,8 @@ export default function Dashboard() {
                           <td className="text-right font-black text-error">-€45.20</td>
                           <td className="text-center">
                             <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti"><span className="material-symbols-outlined text-sm">edit</span></button>
-                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti"><span className="material-symbols-outlined text-sm">delete</span></button>
+                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: 'Maxima XXX', amount: '45.20', category: 'maistas', date: '2025-10-06', type: 'expense' })}><span className="material-symbols-outlined text-sm">edit</span></button>
+                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete('Maxima XXX')}><span className="material-symbols-outlined text-sm">delete</span></button>
                             </div>
                           </td>
                         </tr>
@@ -249,7 +274,7 @@ export default function Dashboard() {
                           <td>
                             <div className="flex items-center gap-3">
                               <div className="avatar placeholder">
-                                <div className="bg-primary/10 text-primary rounded w-10">
+                                <div className="bg-primary/10 text-primary rounded w-10 h-10 flex items-center justify-center">
                                   <span className="material-symbols-outlined text-xl">computer</span>
                                 </div>
                               </div>
@@ -264,8 +289,8 @@ export default function Dashboard() {
                           <td className="text-right font-black text-emerald-600">+€800.00</td>
                           <td className="text-center">
                             <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti"><span className="material-symbols-outlined text-sm">edit</span></button>
-                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti"><span className="material-symbols-outlined text-sm">delete</span></button>
+                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: 'Freelance Project X', amount: '800.00', category: 'papildoma', date: '2025-10-12', type: 'income' })}><span className="material-symbols-outlined text-sm">edit</span></button>
+                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete('Freelance Project X')}><span className="material-symbols-outlined text-sm">delete</span></button>
                             </div>
                           </td>
                         </tr>
@@ -294,7 +319,7 @@ export default function Dashboard() {
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                           <button className="btn btn-ghost btn-xs btn-square"><span className="material-symbols-outlined text-sm">edit</span></button>
-                          <button className="btn btn-ghost btn-xs btn-square text-error"><span className="material-symbols-outlined text-sm">delete</span></button>
+                          <button className="btn btn-ghost btn-xs btn-square text-error" onClick={() => confirmDelete('Būtinosios')}><span className="material-symbols-outlined text-sm">delete</span></button>
                         </div>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-base-200/50 rounded-xl group">
@@ -304,7 +329,7 @@ export default function Dashboard() {
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                           <button className="btn btn-ghost btn-xs btn-square"><span className="material-symbols-outlined text-sm">edit</span></button>
-                          <button className="btn btn-ghost btn-xs btn-square text-error"><span className="material-symbols-outlined text-sm">delete</span></button>
+                          <button className="btn btn-ghost btn-xs btn-square text-error" onClick={() => confirmDelete('Investicijos')}><span className="material-symbols-outlined text-sm">delete</span></button>
                         </div>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-base-200/50 rounded-xl group">
@@ -314,7 +339,7 @@ export default function Dashboard() {
                         </div>
                         <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all">
                           <button className="btn btn-ghost btn-xs btn-square"><span className="material-symbols-outlined text-sm">edit</span></button>
-                          <button className="btn btn-ghost btn-xs btn-square text-error"><span className="material-symbols-outlined text-sm">delete</span></button>
+                          <button className="btn btn-ghost btn-xs btn-square text-error" onClick={() => confirmDelete('Pramogos')}><span className="material-symbols-outlined text-sm">delete</span></button>
                         </div>
                       </div>
                     </div>
@@ -506,6 +531,82 @@ export default function Dashboard() {
               <button type="submit" className="btn btn-error font-bold text-white shadow-lg shadow-error/20">
                 <span className="material-symbols-outlined text-sm">trending_down</span>
                 Pridėti išlaidas
+              </button>
+            </div>
+          </form>
+        </div>
+        <form method="dialog" className="modal-backdrop"><button>close</button></form>
+      </dialog>
+
+      {/* Delete Confirmation Modal */}
+      <dialog id="delete_modal" className="modal">
+        <div className="modal-box rounded-2xl max-w-sm text-center">
+          <div className="flex justify-center mb-4">
+            <div className="bg-error/10 text-error p-4 rounded-full">
+              <span className="material-symbols-outlined text-4xl">warning</span>
+            </div>
+          </div>
+          <h3 className="text-xl font-black mb-2">Ištrinti įrašą?</h3>
+          <div className="flex gap-3 justify-center">
+            <button className="btn btn-ghost" onClick={() => document.getElementById('delete_modal').close()}>Atšaukti</button>
+            <button className="btn btn-error text-white font-bold" onClick={handleDelete}>
+              <span className="material-symbols-outlined text-sm">delete</span>
+              Ištrinti
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop"><button>close</button></form>
+      </dialog>
+
+      {/* Edit Transaction Modal */}
+      <dialog id="edit_modal" className="modal">
+        <div className="modal-box rounded-2xl max-w-lg">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
+          </form>
+          <h3 className="text-xl font-black mb-1">Redaguoti operaciją</h3>
+          <p className="text-sm text-base-content/60 mb-6">Pakeiskite operacijos duomenis</p>
+          <form className="space-y-4" onSubmit={handleEditSubmit}>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Pavadinimas</legend>
+              <input type="text" placeholder="Pavadinimas" className="input input-bordered w-full" value={editForm.title} onChange={(e) => setEditForm({ ...editForm, title: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Suma (€)</legend>
+              <input type="number" step="0.01" min="0.01" placeholder="0.00" className="input input-bordered w-full" value={editForm.amount} onChange={(e) => setEditForm({ ...editForm, amount: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Kategorija</legend>
+              <select className="select select-bordered w-full" value={editForm.category} onChange={(e) => setEditForm({ ...editForm, category: e.target.value })} required>
+                <option value="" disabled>Pasirinkite kategoriją</option>
+                {editForm.type === 'income' ? (
+                  <>
+                    <option value="darbas">Darbas</option>
+                    <option value="papildoma">Papildoma veikla</option>
+                    <option value="investicijos">Investicijos</option>
+                    <option value="kita">Kita</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="maistas">Maistas</option>
+                    <option value="transportas">Transportas</option>
+                    <option value="butine">Būtinoji</option>
+                    <option value="pramogos">Pramogos</option>
+                    <option value="sveikata">Sveikata</option>
+                    <option value="kita">Kita</option>
+                  </>
+                )}
+              </select>
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Data</legend>
+              <input type="date" className="input input-bordered w-full" value={editForm.date} onChange={(e) => setEditForm({ ...editForm, date: e.target.value })} required />
+            </fieldset>
+            <div className="modal-action">
+              <button type="button" className="btn btn-ghost" onClick={() => document.getElementById('edit_modal').close()}>Atšaukti</button>
+              <button type="submit" className="btn btn-primary font-bold shadow-lg shadow-primary/20">
+                <span className="material-symbols-outlined text-sm">save</span>
+                Išsaugoti
               </button>
             </div>
           </form>
