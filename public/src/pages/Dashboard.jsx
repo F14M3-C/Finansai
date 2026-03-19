@@ -1,4 +1,3 @@
-import TransactionsList from "../components/TranscationsList";
 import CoreMetricsGrid from "../components/CoreMetricsGrid";
 import Header from "../components/Header";
 import MobileNavbar from "../components/MobileNavbar";
@@ -6,6 +5,7 @@ import RightSidebar from "../components/RightSidebar";
 import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
 import DashboardHero from "../components/DashboardHero";
+import TransactionsList from "../components/transactions/TranscationsList";
 
 function Dashboard() {
 

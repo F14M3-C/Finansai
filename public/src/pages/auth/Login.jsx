@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
@@ -6,11 +6,33 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Mockup — just navigate to dashboard
-    navigate("/");
-  };
+
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      const response = await fetch ("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({email, password})
+      })
+
+      if(!response.ok){
+        console.log("Neteisingas El.paštas arba Slaptažodis");
+        
+      }
+
+      const data = await response.json()
+
+      console.log(data);
+      
+    }
+
+    // useEffect(() => {
+    //   if(user){
+    //     navigate("")
+    //   }
+    // }, [])
 
   return (
     <div className="bg-base-200 text-base-content min-h-screen flex items-center justify-center px-4">
@@ -22,12 +44,13 @@ export default function Login() {
           </div>
           <h1 className="text-2xl font-black text-base-content">Pajamų valdymas</h1>
           <p className="text-sm text-base-content/60 mt-1">Prisijunkite prie savo paskyros</p>
+          
         </div>
 
         {/* Card */}
         <div className="card bg-base-100 shadow-xl border border-base-300">
           <div className="card-body p-8">
-            <form className="space-y-5" onSubmit={handleSubmit}>
+            <form className="space-y-5" onSubmit={handleLogin}>
               <fieldset className="fieldset">
                 <legend className="fieldset-legend text-sm font-semibold">El. paštas</legend>
                 <input
@@ -50,6 +73,7 @@ export default function Login() {
                   required
                 />
               </fieldset>
+
               <div className="flex items-center justify-between">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" className="checkbox checkbox-primary checkbox-sm" />
@@ -69,7 +93,21 @@ export default function Login() {
             </p>
           </div>
         </div>
+          <div>
+          </div>
+              <div className="flex flex-col items-center gap-4 mt-5">
+              <button className="btn btn-primary" onClick={() => {
+              setEmail("petras@petraitis.com")
+              setPassword("password!")
+            }}>Petras Petraitis</button>
+            <button className="btn btn-primary" onClick={() => {
+              setEmail("jonas@jonaitis.com")
+              setPassword("password!")
+            }}>Jonais Jonaitis</button>
+            </div>
       </div>
     </div>
+
+    
   );
 }
