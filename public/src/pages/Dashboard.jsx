@@ -8,6 +8,24 @@ export default function Dashboard() {
   const [expenseForm, setExpenseForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [editForm, setEditForm] = useState({ title: "", amount: "", category: "", date: "", type: "" });
+  const [showAll, setShowAll] = useState(false);
+
+  const allTransactions = [
+    { title: "Atlyginimas (UAB Tech)", category: "Darbas", date: "Spalio 05", amount: "2,500.00", type: "income", icon: "work" },
+    { title: "Maxima XXX", category: "Maistas", date: "Spalio 06", amount: "45.20", type: "expense", icon: "shopping_bag" },
+    { title: "Freelance Project X", category: "Papildoma", date: "Spalio 12", amount: "800.00", type: "income", icon: "computer" },
+    { title: "Bolt", category: "Transportas", date: "Spalio 07", amount: "12.50", type: "expense", icon: "local_taxi" },
+    { title: "Dividendai", category: "Investicijos", date: "Spalio 15", amount: "150.00", type: "income", icon: "trending_up" },
+    { title: "Elektra", category: "Būtinoji", date: "Spalio 01", amount: "85.00", type: "expense", icon: "bolt" },
+    { title: "Netflix", category: "Pramogos", date: "Spalio 03", amount: "15.99", type: "expense", icon: "movie" },
+    { title: "Nuomos pajamos", category: "Nuoma", date: "Spalio 01", amount: "450.00", type: "income", icon: "home" },
+    { title: "Spotify", category: "Pramogos", date: "Spalio 03", amount: "9.99", type: "expense", icon: "music_note" },
+    { title: "Vaistinė", category: "Sveikata", date: "Spalio 10", amount: "23.40", type: "expense", icon: "medication" },
+    { title: "Premija", category: "Darbas", date: "Spalio 20", amount: "300.00", type: "income", icon: "star" },
+    { title: "Lidl", category: "Maistas", date: "Spalio 12", amount: "67.80", type: "expense", icon: "shopping_bag" },
+  ];
+
+  const visibleTransactions = showAll ? allTransactions : allTransactions.slice(0, 3);
 
   const openEdit = (item) => {
     setEditForm(item);
@@ -215,9 +233,9 @@ export default function Dashboard() {
                       <button className="btn btn-sm join-item bg-base-100 border-none hover:bg-base-200">Išlaidos</button>
                     </div>
                   </div>
-                  <div className="overflow-x-auto">
+                  <div className={`overflow-x-auto ${showAll ? "max-h-[500px] overflow-y-auto" : ""}`}>
                     <table className="table table-lg">
-                      <thead>
+                      <thead className="sticky top-0 bg-base-100 z-10">
                         <tr className="bg-base-200/50">
                           <th className="text-xs font-bold uppercase text-base-content/50">Operacija</th>
                           <th className="text-xs font-bold uppercase text-base-content/50">Kategorija</th>
@@ -227,83 +245,39 @@ export default function Dashboard() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className="hover group">
-                          <td>
-                            <div className="flex items-center gap-3">
-                              <div className="avatar placeholder">
-                                <div className="bg-primary/10 text-primary rounded w-10 h-10 flex items-center justify-center">
-                                  <span className="material-symbols-outlined text-xl">work</span>
+                        {visibleTransactions.map((item, i) => (
+                          <tr key={i} className="hover group">
+                            <td>
+                              <div className="flex items-center gap-3">
+                                <div className="avatar placeholder">
+                                  <div className={`${item.type === 'income' ? 'bg-primary/10 text-primary' : 'bg-error/10 text-error'} rounded w-10 h-10 flex items-center justify-center`}>
+                                    <span className="material-symbols-outlined text-xl">{item.icon}</span>
+                                  </div>
+                                </div>
+                                <div>
+                                  <div className="font-bold">{item.title}</div>
+                                  <div className="text-[10px] opacity-50 font-bold uppercase">{item.type === 'income' ? 'Pajamos' : 'Išlaidos'}</div>
                                 </div>
                               </div>
-                              <div>
-                                <div className="font-bold">Atlyginimas (UAB Tech)</div>
-                                <div className="text-[10px] opacity-50 font-bold uppercase">Pajamos</div>
+                            </td>
+                            <td><div className="badge badge-outline border-base-300 text-[10px] font-bold">{item.category}</div></td>
+                            <td className="text-base-content/60 font-medium text-sm">{item.date}</td>
+                            <td className={`text-right font-black ${item.type === 'income' ? 'text-emerald-600' : 'text-error'}`}>{item.type === 'income' ? '+' : '-'}€{item.amount}</td>
+                            <td className="text-center">
+                              <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: item.title, amount: item.amount.replace(',', ''), category: item.category.toLowerCase(), date: '2025-10-05', type: item.type })}><span className="material-symbols-outlined text-sm">edit</span></button>
+                                <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete(item.title)}><span className="material-symbols-outlined text-sm">delete</span></button>
                               </div>
-                            </div>
-                          </td>
-                          <td><div className="badge badge-outline border-base-300 text-[10px] font-bold">Darbas</div></td>
-                          <td className="text-base-content/60 font-medium text-sm">Spalio 05</td>
-                          <td className="text-right font-black text-emerald-600">+€2,500.00</td>
-                          <td className="text-center">
-                            <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: 'Atlyginimas (UAB Tech)', amount: '2500.00', category: 'darbas', date: '2025-10-05', type: 'income' })}><span className="material-symbols-outlined text-sm">edit</span></button>
-                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete('Atlyginimas (UAB Tech)')}><span className="material-symbols-outlined text-sm">delete</span></button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr className="hover group">
-                          <td>
-                            <div className="flex items-center gap-3">
-                              <div className="avatar placeholder">
-                                <div className="bg-error/10 text-error rounded w-10 h-10 flex items-center justify-center">
-                                  <span className="material-symbols-outlined text-xl">shopping_bag</span>
-                                </div>
-                              </div>
-                              <div>
-                                <div className="font-bold">Maxima XXX</div>
-                                <div className="text-[10px] opacity-50 font-bold uppercase">Išlaidos</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td><div className="badge badge-outline border-base-300 text-[10px] font-bold">Maistas</div></td>
-                          <td className="text-base-content/60 font-medium text-sm">Spalio 06</td>
-                          <td className="text-right font-black text-error">-€45.20</td>
-                          <td className="text-center">
-                            <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: 'Maxima XXX', amount: '45.20', category: 'maistas', date: '2025-10-06', type: 'expense' })}><span className="material-symbols-outlined text-sm">edit</span></button>
-                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete('Maxima XXX')}><span className="material-symbols-outlined text-sm">delete</span></button>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr className="hover group">
-                          <td>
-                            <div className="flex items-center gap-3">
-                              <div className="avatar placeholder">
-                                <div className="bg-primary/10 text-primary rounded w-10 h-10 flex items-center justify-center">
-                                  <span className="material-symbols-outlined text-xl">computer</span>
-                                </div>
-                              </div>
-                              <div>
-                                <div className="font-bold">Freelance Project X</div>
-                                <div className="text-[10px] opacity-50 font-bold uppercase">Pajamos</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td><div className="badge badge-outline border-base-300 text-[10px] font-bold">Papildoma</div></td>
-                          <td className="text-base-content/60 font-medium text-sm">Spalio 12</td>
-                          <td className="text-right font-black text-emerald-600">+€800.00</td>
-                          <td className="text-center">
-                            <div className="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button className="btn btn-ghost btn-xs btn-square" title="Redaguoti" onClick={() => openEdit({ title: 'Freelance Project X', amount: '800.00', category: 'papildoma', date: '2025-10-12', type: 'income' })}><span className="material-symbols-outlined text-sm">edit</span></button>
-                              <button className="btn btn-ghost btn-xs btn-square text-error" title="Ištrinti" onClick={() => confirmDelete('Freelance Project X')}><span className="material-symbols-outlined text-sm">delete</span></button>
-                            </div>
-                          </td>
-                        </tr>
+                            </td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
                   <div className="p-4 border-t border-base-200 text-center">
-                    <button className="btn btn-ghost btn-sm text-primary font-bold">Žiūrėti visą sąrašą</button>
+                    <button className="btn btn-ghost btn-sm text-primary font-bold" onClick={() => setShowAll(!showAll)}>
+                      {showAll ? 'Rodyti mažiau' : 'Žiūrėti visą sąrašą'}
+                    </button>
                   </div>
                 </div>
               </div>
