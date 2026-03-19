@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [incomeForm, setIncomeForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
   const [expenseForm, setExpenseForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -36,6 +37,10 @@ export default function Dashboard() {
   };
 
   const openModal = (id) => document.getElementById(id).showModal();
+
+  const isActive = (path) => location.pathname === path;
+  const navLinkClass = (path) =>
+    `flex items-center gap-4 px-4 py-3 rounded-xl font-bold transition-all ${isActive(path) ? "bg-primary/10 text-primary border-r-4 border-primary" : "hover:bg-base-200"}`;
 
   const handleIncomeSubmit = (e) => {
     e.preventDefault();
@@ -388,18 +393,18 @@ export default function Dashboard() {
             </div>
             <div className="space-y-1">
               <p className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-base-content/40">Pagrindinis</p>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold transition-all bg-primary/10 text-primary border-r-4 border-primary">
+              <Link to="/" className={navLinkClass("/")}>
                 <span className="material-symbols-outlined">dashboard</span>
                 Apžvalga
-              </a>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
+              </Link>
+              <Link to="/pajamos" className={navLinkClass("/pajamos")}>
                 <span className="material-symbols-outlined">payments</span>
                 Pajamos
-              </a>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
+              </Link>
+              <Link to="/islaidos" className={navLinkClass("/islaidos")}>
                 <span className="material-symbols-outlined">shopping_cart</span>
                 Išlaidos
-              </a>
+              </Link>
               <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
                 <span className="material-symbols-outlined">category</span>
                 Kategorijos
