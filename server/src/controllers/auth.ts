@@ -76,7 +76,7 @@ export const checkAuth = [
 ];
 
 export const login = [
-	bodyUsername,
+	bodyEmail,
 	bodyPassword,
 	validate,
 	Passport.authenticate("local"),

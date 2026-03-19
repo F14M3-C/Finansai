@@ -17,7 +17,7 @@ export default defineConfig({
 			proxy: {
 				"/api": {
 					// eslint-disable-next-line no-undef
-					target: process.env.BACKEND_URL,
+					target: process.env.BACKEND_URL || "http://localhost:3000",
 					changeOrigin: true,
 					secure: false,
 				},
