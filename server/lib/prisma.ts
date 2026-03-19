@@ -9,6 +9,7 @@ const adapter = new PrismaMariaDb({
   password: process.env.DATABASE_PASSWORD || "hunter2",
   database: process.env.DATABASE_NAME || "finansai",
   connectionLimit: 5,
+  allowPublicKeyRetrieval: true,
 });
 const prisma = new PrismaClient({ adapter });
 
