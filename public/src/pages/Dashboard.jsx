@@ -1,13 +1,31 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [incomeForm, setIncomeForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
+  const [expenseForm, setExpenseForm] = useState({ title: "", amount: "", category: "", date: "", note: "" });
 
   const handleLogout = () => {
     navigate("/login");
   };
 
+  const openModal = (id) => document.getElementById(id).showModal();
+
+  const handleIncomeSubmit = (e) => {
+    e.preventDefault();
+    document.getElementById("income_modal").close();
+    setIncomeForm({ title: "", amount: "", category: "", date: "", note: "" });
+  };
+
+  const handleExpenseSubmit = (e) => {
+    e.preventDefault();
+    document.getElementById("expense_modal").close();
+    setExpenseForm({ title: "", amount: "", category: "", date: "", note: "" });
+  };
+
   return (
+    <>
     <div className="bg-base-200 text-base-content min-h-screen">
       <div className="drawer lg:drawer-open">
         <input className="drawer-toggle" id="my-drawer-2" type="checkbox" />
@@ -89,9 +107,9 @@ export default function Dashboard() {
                     <span className="material-symbols-outlined">add</span>
                     Pridėti operaciją
                   </button>
-                  <ul className="dropdown-content z-[1] menu p-2 shadow-xl bg-base-100 rounded-box w-52 mt-2 border border-base-200" tabIndex={0}>
-                    <li><a><span className="material-symbols-outlined text-emerald-600">trending_up</span> Pridėti pajamas</a></li>
-                    <li><a><span className="material-symbols-outlined text-error">trending_down</span> Pridėti išlaidas</a></li>
+                  <ul className="dropdown-content z-50 menu p-2 shadow-xl bg-base-100 rounded-box w-52 mt-2 border border-base-200" tabIndex={0}>
+                    <li><a onClick={() => openModal('income_modal')}><span className="material-symbols-outlined text-emerald-600">trending_up</span> Pridėti pajamas</a></li>
+                    <li><a onClick={() => openModal('expense_modal')}><span className="material-symbols-outlined text-error">trending_down</span> Pridėti išlaidas</a></li>
                   </ul>
                 </div>
               </div>
@@ -398,5 +416,102 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
+
+      {/* Add Income Modal */}
+      <dialog id="income_modal" className="modal">
+        <div className="modal-box rounded-2xl max-w-lg">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
+          </form>
+          <h3 className="text-xl font-black mb-1">Pridėti pajamas</h3>
+          <p className="text-sm text-base-content/60 mb-6">Užregistruokite naują pajamų įrašą</p>
+          <form className="space-y-4" onSubmit={handleIncomeSubmit}>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Pavadinimas</legend>
+              <input type="text" placeholder="pvz. Atlyginimas" className="input input-bordered w-full" value={incomeForm.title} onChange={(e) => setIncomeForm({ ...incomeForm, title: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Suma (€)</legend>
+              <input type="number" step="0.01" min="0.01" placeholder="0.00" className="input input-bordered w-full" value={incomeForm.amount} onChange={(e) => setIncomeForm({ ...incomeForm, amount: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Kategorija</legend>
+              <select className="select select-bordered w-full" value={incomeForm.category} onChange={(e) => setIncomeForm({ ...incomeForm, category: e.target.value })} required>
+                <option value="" disabled>Pasirinkite kategoriją</option>
+                <option value="darbas">Darbas</option>
+                <option value="papildoma">Papildoma veikla</option>
+                <option value="investicijos">Investicijos</option>
+                <option value="kita">Kita</option>
+              </select>
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Data</legend>
+              <input type="date" className="input input-bordered w-full" value={incomeForm.date} onChange={(e) => setIncomeForm({ ...incomeForm, date: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Pastaba (neprivaloma)</legend>
+              <textarea className="textarea textarea-bordered w-full" placeholder="Papildoma informacija..." rows={2} value={incomeForm.note} onChange={(e) => setIncomeForm({ ...incomeForm, note: e.target.value })} />
+            </fieldset>
+            <div className="modal-action">
+              <button type="button" className="btn btn-ghost" onClick={() => document.getElementById('income_modal').close()}>Atšaukti</button>
+              <button type="submit" className="btn btn-primary font-bold shadow-lg shadow-primary/20">
+                <span className="material-symbols-outlined text-sm">trending_up</span>
+                Pridėti pajamas
+              </button>
+            </div>
+          </form>
+        </div>
+        <form method="dialog" className="modal-backdrop"><button>close</button></form>
+      </dialog>
+
+      {/* Add Expense Modal */}
+      <dialog id="expense_modal" className="modal">
+        <div className="modal-box rounded-2xl max-w-lg">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4">✕</button>
+          </form>
+          <h3 className="text-xl font-black mb-1">Pridėti išlaidas</h3>
+          <p className="text-sm text-base-content/60 mb-6">Užregistruokite naują išlaidų įrašą</p>
+          <form className="space-y-4" onSubmit={handleExpenseSubmit}>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Pavadinimas</legend>
+              <input type="text" placeholder="pvz. Maxima" className="input input-bordered w-full" value={expenseForm.title} onChange={(e) => setExpenseForm({ ...expenseForm, title: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Suma (€)</legend>
+              <input type="number" step="0.01" min="0.01" placeholder="0.00" className="input input-bordered w-full" value={expenseForm.amount} onChange={(e) => setExpenseForm({ ...expenseForm, amount: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Kategorija</legend>
+              <select className="select select-bordered w-full" value={expenseForm.category} onChange={(e) => setExpenseForm({ ...expenseForm, category: e.target.value })} required>
+                <option value="" disabled>Pasirinkite kategoriją</option>
+                <option value="maistas">Maistas</option>
+                <option value="transportas">Transportas</option>
+                <option value="butine">Būtinoji</option>
+                <option value="pramogos">Pramogos</option>
+                <option value="sveikata">Sveikata</option>
+                <option value="kita">Kita</option>
+              </select>
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Data</legend>
+              <input type="date" className="input input-bordered w-full" value={expenseForm.date} onChange={(e) => setExpenseForm({ ...expenseForm, date: e.target.value })} required />
+            </fieldset>
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend text-sm font-semibold">Pastaba (neprivaloma)</legend>
+              <textarea className="textarea textarea-bordered w-full" placeholder="Papildoma informacija..." rows={2} value={expenseForm.note} onChange={(e) => setExpenseForm({ ...expenseForm, note: e.target.value })} />
+            </fieldset>
+            <div className="modal-action">
+              <button type="button" className="btn btn-ghost" onClick={() => document.getElementById('expense_modal').close()}>Atšaukti</button>
+              <button type="submit" className="btn btn-error font-bold text-white shadow-lg shadow-error/20">
+                <span className="material-symbols-outlined text-sm">trending_down</span>
+                Pridėti išlaidas
+              </button>
+            </div>
+          </form>
+        </div>
+        <form method="dialog" className="modal-backdrop"><button>close</button></form>
+      </dialog>
+    </>
   );
 }
