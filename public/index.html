@@ -1,13 +1,879 @@
 <!doctype html>
-<html lang="en">
+
+<html class="light" data-theme="light" lang="lt">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="./src/css/style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finansai</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#ec5b13",
+              "primary-content": "#ffffff",
+            },
+            fontFamily: {
+              sans: ["Public Sans", "sans-serif"],
+            },
+          },
+        },
+        daisyui: {
+          themes: [
+            {
+              light: {
+                ...require("daisyui/src/theming/themes")["light"],
+                primary: "#ec5b13",
+                "primary-content": "#ffffff",
+                "base-100": "#ffffff",
+                "base-200": "#f8f6f6",
+              },
+            },
+          ],
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Public Sans", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .sidebar-active {
+        background-color: rgb(236 91 19 / 0.1);
+        color: #ec5b13;
+        border-right: 4px solid #ec5b13;
+      }
+    </style>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+  <body class="bg-base-200 text-base-content min-h-screen">
+    <div class="drawer lg:drawer-open">
+      <input class="drawer-toggle" id="my-drawer-2" type="checkbox" />
+      <!-- Main Content -->
+      <div class="drawer-content flex flex-col">
+        <!-- Mobile Navbar -->
+        <div class="navbar bg-base-100 border-b border-base-300 lg:hidden">
+          <div class="flex-none">
+            <label class="btn btn-square btn-ghost" for="my-drawer-2">
+              <span class="material-symbols-outlined">menu</span>
+            </label>
+          </div>
+          <div class="flex-1">
+            <a class="btn btn-ghost text-xl font-bold">Pajamų valdymas</a>
+          </div>
+        </div>
+        <!-- Top Header (Desktop & Mobile) -->
+        <header
+          class="navbar bg-base-100 border-b border-base-300 px-6 py-2 sticky top-0 z-20"
+        >
+          <div class="navbar-start">
+            <div class="hidden lg:flex items-center gap-2 px-2">
+              <span class="text-sm font-semibold opacity-60"
+                >Sveiki sugrįžę,</span
+              >
+              <span class="text-sm font-bold text-primary"
+                >Jonas Kazlauskas</span
+              >
+            </div>
+          </div>
+          <div class="navbar-center hidden lg:flex">
+            <div class="form-control">
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40"
+                  >search</span
+                >
+                <input
+                  class="input input-sm input-bordered pl-10 w-64 rounded-lg bg-base-200/50 border-none focus:bg-base-100"
+                  placeholder="Ieškoti operacijų..."
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="navbar-end gap-2">
+            <div class="dropdown dropdown-end">
+              <button class="btn btn-ghost btn-circle bg-base-200">
+                <div class="indicator">
+                  <span class="material-symbols-outlined">notifications</span>
+                  <span
+                    class="badge badge-xs badge-primary indicator-item"
+                  ></span>
+                </div>
+              </button>
+            </div>
+            <div class="dropdown dropdown-end">
+              <div
+                class="btn btn-ghost btn-circle avatar border-2 border-primary"
+                role="button"
+                tabindex="0"
+              >
+                <div class="w-10 rounded-full">
+                  <img
+                    alt="User profile"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhLyoDx0T0SSTzD28tcZjDCz4YcB7t-i_f3_juC-vb2iirx7iurp8nRLRt_yRBiNju9JtgzqjvWKX8qb62oW5WAUL9LTRF1pF9XEADRab2fnlRP4a7Vfnjo1yAheBcXiau7bKUp3Vav9nhMmABMtjvBRjgM1ezevkDzz9BzkVUjYM9m_gJ5Y6VRRe0Ab4T_w-r4DOZVJAZlDFk_95RpS3mDs1SlmqjD5_J-m19wDtxZ38DugCM05IRzE8WG8vQWZfzAYh3s_6H2vQ"
+                  />
+                </div>
+              </div>
+              <ul
+                class="mt-3 z-1 p-2 shadow-xl menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-200"
+                tabindex="0"
+              >
+                <li class="menu-title px-4 py-2 opacity-50">
+                  Naudotojo paskyra
+                </li>
+                <li>
+                  <a
+                    ><span class="material-symbols-outlined text-sm"
+                      >person</span
+                    >
+                    Profilis</a
+                  >
+                </li>
+                <li>
+                  <a
+                    ><span class="material-symbols-outlined text-sm"
+                      >settings</span
+                    >
+                    Nustatymai</a
+                  >
+                </li>
+                <div class="divider my-0"></div>
+                <li>
+                  <a class="text-error"
+                    ><span class="material-symbols-outlined text-sm"
+                      >logout</span
+                    >
+                    Atsijungti</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+        <main class="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
+          <!-- Dashboard Hero -->
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
+            <div>
+              <h1 class="text-3xl font-black mb-1">Apžvalga</h1>
+              <p class="text-base-content/60 font-medium">
+                Realaus laiko jūsų finansų statistika
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button
+                  class="btn btn-primary px-6 rounded-xl font-bold shadow-lg shadow-primary/20"
+                  id="transaction-btn"
+                  onclick="document.getElementById('add_transaction_modal').showModal()"
+                >
+                  <span class="material-symbols-outlined">add</span>
+                  Pridėti operaciją
+                </button>
+            </div>
+          </div>
+          <!-- Core Metrics Grid (KOM4-98) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="card bg-base-100 shadow-sm border border-base-300">
+              <div class="card-body p-5">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="bg-orange-100 text-primary p-2 rounded-lg">
+                    <span class="material-symbols-outlined"
+                      >account_balance_wallet</span
+                    >
+                  </div>
+                  <span class="badge badge-ghost text-xs font-bold"
+                    >Likutis</span
+                  >
+                </div>
+                <div class="stat-value text-2xl font-black">€12,450.00</div>
+                <div
+                  class="stat-desc font-bold text-emerald-600 mt-1 flex items-center gap-1"
+                >
+                  <span class="material-symbols-outlined text-xs"
+                    >arrow_upward</span
+                  >
+                  +2.1% šį mėn.
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm border border-base-300">
+              <div class="card-body p-5">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="bg-emerald-100 text-emerald-600 p-2 rounded-lg">
+                    <span class="material-symbols-outlined">payments</span>
+                  </div>
+                  <span class="badge badge-ghost text-xs font-bold"
+                    >Pajamos</span
+                  >
+                </div>
+                <div class="stat-value text-2xl font-black">€3,450.00</div>
+                <div class="stat-desc text-base-content/50 font-medium">
+                  Spalio mėnuo
+                </div>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm border border-base-300">
+              <div class="card-body p-5">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="bg-error/10 text-error p-2 rounded-lg">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                  </div>
+                  <span class="badge badge-ghost text-xs font-bold"
+                    >Išlaidos</span
+                  >
+                </div>
+                <div class="stat-value text-2xl font-black">€2,329.50</div>
+                <div class="stat-desc text-base-content/50 font-medium">
+                  Spalio mėnuo
+                </div>
+              </div>
+            </div>
+            <div
+              class="card bg-primary text-primary-content shadow-xl overflow-hidden relative"
+            >
+              <div class="card-body p-5 relative z-10">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="bg-white/20 p-2 rounded-lg">
+                    <span class="material-symbols-outlined">savings</span>
+                  </div>
+                  <span
+                    class="badge bg-white/20 border-none text-white text-xs font-bold"
+                    >Laisvos lėšos</span
+                  >
+                </div>
+                <div class="stat-value text-2xl font-black">€1,120.50</div>
+                <div class="stat-desc text-white/70 font-medium">
+                  Pasiekiama dabar
+                </div>
+              </div>
+              <span
+                class="material-symbols-outlined absolute -right-2 -bottom-2 text-7xl opacity-10 rotate-12"
+                >verified_user</span
+              >
+            </div>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Transactions List (KOM4-105, 106, 108, 95) -->
+            <div class="lg:col-span-2 space-y-6">
+              <div
+                class="card bg-base-100 shadow-sm border border-base-300 overflow-hidden"
+              >
+                <div
+                  class="p-6 border-b border-base-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+                >
+                  <div>
+                    <h3 class="text-xl font-black">Paskutinės operacijos</h3>
+                    <p
+                      class="text-xs text-base-content/50 font-bold uppercase tracking-widest mt-1"
+                    >
+                      Pajamos ir išlaidos
+                    </p>
+                  </div>
+                  <div class="join shadow-sm border border-base-200">
+                    <button
+                      class="btn btn-sm join-item bg-base-100 border-none hover:bg-base-200"
+                    >
+                      Visi
+                    </button>
+                    <button
+                      class="btn btn-sm join-item bg-base-100 border-none hover:bg-base-200"
+                    >
+                      Pajamos
+                    </button>
+                    <button
+                      class="btn btn-sm join-item bg-base-100 border-none hover:bg-base-200"
+                    >
+                      Išlaidos
+                    </button>
+                  </div>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="table table-lg">
+                    <thead>
+                      <tr class="bg-base-200/50">
+                        <th
+                          class="text-xs font-bold uppercase text-base-content/50"
+                        >
+                          Operacija
+                        </th>
+                        <th
+                          class="text-xs font-bold uppercase text-base-content/50"
+                        >
+                          Kategorija
+                        </th>
+                        <th
+                          class="text-xs font-bold uppercase text-base-content/50"
+                        >
+                          Data
+                        </th>
+                        <th
+                          class="text-xs font-bold uppercase text-base-content/50 text-right"
+                        >
+                          Suma
+                        </th>
+                        <th
+                          class="text-xs font-bold uppercase text-base-content/50 text-center"
+                        >
+                          Veiksmai
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="hover group">
+                        <td>
+                          <div class="flex items-center gap-3">
+                            <div class="avatar placeholder">
+                              <div
+                                class="bg-orange-100 text-primary rounded w-10"
+                              >
+                                <span class="material-symbols-outlined text-xl"
+                                  >work</span
+                                >
+                              </div>
+                            </div>
+                            <div>
+                              <div class="font-bold">
+                                Atlyginimas (UAB Tech)
+                              </div>
+                              <div
+                                class="text-[10px] opacity-50 font-bold uppercase"
+                              >
+                                Pajamos
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            class="badge badge-outline border-base-300 text-[10px] font-bold"
+                          >
+                            Darbas
+                          </div>
+                        </td>
+                        <td class="text-base-content/60 font-medium text-sm">
+                          Spalio 05
+                        </td>
+                        <td class="text-right font-black text-emerald-600">
+                          +€2,500.00
+                        </td>
+                        <td class="text-center">
+                          <div
+                            class="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <button
+                              class="btn btn-ghost btn-xs btn-square"
+                              title="Redaguoti"
+                            >
+                              <span class="material-symbols-outlined text-sm"
+                                >edit</span
+                              >
+                            </button>
+                            <button
+                              class="btn btn-ghost btn-xs btn-square text-error"
+                              title="Ištrinti"
+                            >
+                              <span class="material-symbols-outlined text-sm"
+                                >delete</span
+                              >
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="hover group">
+                        <td>
+                          <div class="flex items-center gap-3">
+                            <div class="avatar placeholder">
+                              <div class="bg-error/10 text-error rounded w-10">
+                                <span class="material-symbols-outlined text-xl"
+                                  >shopping_bag</span
+                                >
+                              </div>
+                            </div>
+                            <div>
+                              <div class="font-bold">Maxima XXX</div>
+                              <div
+                                class="text-[10px] opacity-50 font-bold uppercase"
+                              >
+                                Išlaidos
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            class="badge badge-outline border-base-300 text-[10px] font-bold"
+                          >
+                            Maistas
+                          </div>
+                        </td>
+                        <td class="text-base-content/60 font-medium text-sm">
+                          Spalio 06
+                        </td>
+                        <td class="text-right font-black text-error">
+                          -€45.20
+                        </td>
+                        <td class="text-center">
+                          <div
+                            class="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <button
+                              class="btn btn-ghost btn-xs btn-square"
+                              title="Redaguoti"
+                            >
+                              <span class="material-symbols-outlined text-sm"
+                                >edit</span
+                              >
+                            </button>
+                            <button
+                              class="btn btn-ghost btn-xs btn-square text-error"
+                              title="Ištrinti"
+                            >
+                              <span class="material-symbols-outlined text-sm"
+                                >delete</span
+                              >
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr class="hover group">
+                        <td>
+                          <div class="flex items-center gap-3">
+                            <div class="avatar placeholder">
+                              <div
+                                class="bg-orange-100 text-primary rounded w-10"
+                              >
+                                <span class="material-symbols-outlined text-xl"
+                                  >computer</span
+                                >
+                              </div>
+                            </div>
+                            <div>
+                              <div class="font-bold">Freelance Project X</div>
+                              <div
+                                class="text-[10px] opacity-50 font-bold uppercase"
+                              >
+                                Pajamos
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            class="badge badge-outline border-base-300 text-[10px] font-bold"
+                          >
+                            Papildoma
+                          </div>
+                        </td>
+                        <td class="text-base-content/60 font-medium text-sm">
+                          Spalio 12
+                        </td>
+                        <td class="text-right font-black text-emerald-600">
+                          +€800.00
+                        </td>
+                        <td class="text-center">
+                          <div
+                            class="flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <button
+                              class="btn btn-ghost btn-xs btn-square"
+                              title="Redaguoti"
+                            >
+                              <span class="material-symbols-outlined text-sm"
+                                >edit</span
+                              >
+                            </button>
+                            <button
+                              class="btn btn-ghost btn-xs btn-square text-error"
+                              title="Ištrinti"
+                            >
+                              <span class="material-symbols-outlined text-sm"
+                                >delete</span
+                              >
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="p-4 border-t border-base-200 text-center">
+                  <button class="btn btn-ghost btn-sm text-primary font-bold">
+                    Žiūrėti visą sąrašą
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Right Sidebar: Categories & Admin -->
+            <div class="space-y-6">
+              <!-- Category Management (KOM4-96, 109, 110) -->
+              <div class="card bg-base-100 shadow-sm border border-base-300">
+                <div class="card-body p-6">
+                  <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-black">Kategorijos</h3>
+                    <button class="btn btn-xs btn-ghost text-primary font-bold">
+                      + Nauja
+                    </button>
+                  </div>
+                  <div class="space-y-3">
+                    <div
+                      class="flex justify-between items-center p-3 bg-base-200/50 rounded-xl group"
+                    >
+                      <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-primary"></div>
+                        <span class="text-sm font-bold">Būtinosios</span>
+                      </div>
+                      <div
+                        class="flex gap-1 opacity-0 group-hover:opacity-100 transition-all"
+                      >
+                        <button class="btn btn-ghost btn-xs btn-square">
+                          <span class="material-symbols-outlined text-sm"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="btn btn-ghost btn-xs btn-square text-error"
+                        >
+                          <span class="material-symbols-outlined text-sm"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="flex justify-between items-center p-3 bg-base-200/50 rounded-xl group"
+                    >
+                      <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                        <span class="text-sm font-bold">Investicijos</span>
+                      </div>
+                      <div
+                        class="flex gap-1 opacity-0 group-hover:opacity-100 transition-all"
+                      >
+                        <button class="btn btn-ghost btn-xs btn-square">
+                          <span class="material-symbols-outlined text-sm"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="btn btn-ghost btn-xs btn-square text-error"
+                        >
+                          <span class="material-symbols-outlined text-sm"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </div>
+                    <div
+                      class="flex justify-between items-center p-3 bg-base-200/50 rounded-xl group"
+                    >
+                      <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                        <span class="text-sm font-bold">Pramogos</span>
+                      </div>
+                      <div
+                        class="flex gap-1 opacity-0 group-hover:opacity-100 transition-all"
+                      >
+                        <button class="btn btn-ghost btn-xs btn-square">
+                          <span class="material-symbols-outlined text-sm"
+                            >edit</span
+                          >
+                        </button>
+                        <button
+                          class="btn btn-ghost btn-xs btn-square text-error"
+                        >
+                          <span class="material-symbols-outlined text-sm"
+                            >delete</span
+                          >
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Insight Card -->
+              <div class="card bg-orange-50 border border-orange-200">
+                <div class="card-body p-6">
+                  <div class="flex items-center gap-3 mb-3">
+                    <span class="material-symbols-outlined text-primary"
+                      >lightbulb</span
+                    >
+                    <h4 class="font-bold">Įžvalga</h4>
+                  </div>
+                  <p class="text-sm leading-relaxed text-base-content/70">
+                    Jūsų pajamos šį mėnesį yra
+                    <strong class="text-base-content">12% didesnės</strong> nei
+                    vidutiniškai. Rekomenduojame padidinti periodinę investicijų
+                    sumą bent <strong class="text-base-content">€100</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer
+          class="footer items-center p-6 lg:px-10 bg-base-100 border-t border-base-300 text-base-content/60 mt-auto"
+        >
+          <aside class="items-center grid-flow-col">
+            <span class="material-symbols-outlined text-lg">shield</span>
+            <p class="text-xs font-semibold">
+              Bankinio lygio saugumas užtikrintas
+            </p>
+          </aside>
+          <nav
+            class="grid-flow-col gap-6 md:place-self-center md:justify-self-end"
+          >
+            <a class="link link-hover text-xs font-medium">Pagalba</a>
+            <a class="link link-hover text-xs font-medium"
+              >Privatumo politika</a
+            >
+            <a class="link link-hover text-xs font-medium">Sąlygos</a>
+          </nav>
+        </footer>
+      </div>
+      <!-- Navigation Drawer (Sidebar) -->
+      <div class="drawer-side z-30">
+        <label
+          aria-label="close sidebar"
+          class="drawer-overlay"
+          for="my-drawer-2"
+        ></label>
+        <div
+          class="menu p-4 w-80 min-h-full bg-base-100 border-r border-base-300"
+        >
+          <!-- Branding -->
+          <div class="flex items-center gap-3 px-4 py-8 mb-4">
+            <div class="bg-primary text-primary-content p-2 rounded-xl">
+              <span class="material-symbols-outlined block"
+                >account_balance_wallet</span
+              >
+            </div>
+            <span class="text-xl font-black tracking-tight"
+              >Pajamų valdymas</span
+            >
+          </div>
+          <div class="space-y-1">
+            <p
+              class="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-base-content/40"
+            >
+              Pagrindinis
+            </p>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold transition-all sidebar-active"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              Apžvalga
+            </a>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">payments</span>
+              Pajamos
+            </a>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">shopping_cart</span>
+              Išlaidos
+            </a>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">category</span>
+              Kategorijos
+            </a>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">bar_chart</span>
+              Analitika
+            </a>
+          </div>
+          <div class="divider"></div>
+          <div class="space-y-1">
+            <p
+              class="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-base-content/40"
+            >
+              Admin Valdymas (KOM4-99, 100)
+            </p>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">group</span>
+              Naudotojų valdymas
+            </a>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">history_edu</span>
+              Įvykių žurnalas
+            </a>
+            <a
+              class="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all"
+            >
+              <span class="material-symbols-outlined">security</span>
+              Saugumo nustatymai
+            </a>
+          </div>
+          <div
+            class="mt-auto p-4 bg-base-200/50 rounded-2xl flex items-center gap-4"
+          >
+            <div class="avatar online">
+              <div class="w-10 rounded-full">
+                <img
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhLyoDx0T0SSTzD28tcZjDCz4YcB7t-i_f3_juC-vb2iirx7iurp8nRLRt_yRBiNju9JtgzqjvWKX8qb62oW5WAUL9LTRF1pF9XEADRab2fnlRP4a7Vfnjo1yAheBcXiau7bKUp3Vav9nhMmABMtjvBRjgM1ezevkDzz9BzkVUjYM9m_gJ5Y6VRRe0Ab4T_w-r4DOZVJAZlDFk_95RpS3mDs1SlmqjD5_J-m19wDtxZ38DugCM05IRzE8WG8vQWZfzAYh3s_6H2vQ"
+                />
+              </div>
+            </div>
+            <div class="grow overflow-hidden">
+              <div class="text-sm font-black truncate">Jonas Kazlauskas</div>
+              <div class="text-[10px] font-bold opacity-50 truncate">
+                jonas@uabtech.lt
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-xs btn-circle">
+              <span class="material-symbols-outlined text-sm">settings</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modals -->
+    <dialog class="modal" id="edit_modal">
+      <div class="modal-box rounded-2xl">
+        <h3 class="font-black text-xl mb-6">Redaguoti operaciją</h3>
+        <div class="space-y-4">
+          <div class="form-control">
+            <label class="label"
+              ><span class="label-text font-bold">Pavadinimas</span></label
+            >
+            <input
+              class="input input-bordered rounded-xl"
+              type="text"
+              value="Atlyginimas (UAB Tech)"
+            />
+          </div>
+          <div class="form-control">
+            <label class="label"
+              ><span class="label-text font-bold">Suma</span></label
+            >
+            <div class="join">
+              <span class="join-item btn btn-disabled">€</span>
+              <input
+                class="input input-bordered join-item w-full rounded-r-xl"
+                type="number"
+                value="2500"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-ghost font-bold">Atšaukti</button>
+            <button class="btn btn-primary px-8 font-bold">Išsaugoti</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="modal" id="add_transaction_modal">
+      <div class="modal-box rounded-2xl">
+        <h3 class="font-black text-xl mb-6">Pridėti operaciją</h3>
+        <form id="add-transaction-form">
+          <div class="space-y-4">
+            <div class="form-control">
+              <label class="label"
+                ><span class="label-text font-bold">Tipas</span></label
+              >
+              <select
+                id="t-type"
+                name="type"
+                class="select select-bordered w-full rounded-xl"
+                required
+              >
+                <option value="INCOME">Pajamos</option>
+                <option value="EXPENSE">Išlaidos</option>
+              </select>
+            </div>
+            <div class="form-control">
+              <label class="label"
+                ><span class="label-text font-bold">Pavadinimas</span></label
+              >
+              <input
+                id="t-title"
+                name="title"
+                class="input input-bordered w-full rounded-xl"
+                type="text"
+                placeholder="Pvz., Atlyginimas"
+                required
+              />
+            </div>
+            <div class="form-control">
+              <label class="label"
+                ><span class="label-text font-bold">Suma</span></label
+              >
+              <div class="join">
+                <span class="join-item btn btn-disabled">€</span>
+                <input
+                  id="t-amount"
+                  name="amount"
+                  class="input input-bordered join-item w-full rounded-r-xl"
+                  type="number"
+                  step="0.01"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-control">
+              <label class="label"
+                ><span class="label-text font-bold">Aprašymas</span></label
+              >
+              <textarea
+                id="t-description"
+                name="description"
+                class="textarea textarea-bordered w-full rounded-xl"
+                placeholder="Papildoma informacija (nebūtina)"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-action mt-6">
+            <button
+              type="button"
+              class="btn btn-ghost font-bold"
+              onclick="document.getElementById('add_transaction_modal').close()"
+            >
+              Atšaukti
+            </button>
+            <button type="submit" class="btn btn-primary px-8 font-bold">
+              Pridėti
+            </button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <script type="module" src="/src/transactions.js"></script>
   </body>
 </html>
