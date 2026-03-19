@@ -7,7 +7,7 @@ import { prisma } from "./lib/prisma";
 import "dotenv/config";
 
 const { SESSION_SECRET } = process.env;
-import transactionRoutes from "./routes/transcationRoutes";
+import transactionsRouter from "./routes/transactions";
 const PORT = 3000;
 
 const app = express();
@@ -29,7 +29,7 @@ app.use(
 );
 app.use(passport.authenticate("session"));
 app.use(express.json());
-app.use("/api/transactions", transactionRoutes);
+app.use("/api/transactions", transactionsRouter);
 
 app.use("/api/auth", authRouter);
 

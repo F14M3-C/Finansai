@@ -1,8 +1,9 @@
-import { body, matchedData, validationResult } from "express-validator";
+import { body, matchedData } from "express-validator";
 import { type NextFunction, type Request, type Response } from "express";
 import argon2 from "argon2";
 import Passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { validate } from "./common";
 
 import * as AuthModel from "../models/auth";
 import * as UserModel from "../models/user";
@@ -58,12 +59,6 @@ Passport.deserializeUser(function (id: any, cb) {
 	});
 });
 
-const validate = (req: Request, res: Response, next: NextFunction) => {
-	const result = validationResult(req);
-	if (result.isEmpty()) next();
-	else res.status(400).send({ errors: result.array() });
-};
-
 export const isAuthenticated = (
 	req: Request,
 	res: Response,
@@ -105,7 +100,7 @@ export const register = [
 
 		const hashedPassword = await argon2.hash(requestData.password);
 
-		const { error: createError } = await AuthModel.createUser({
+		const { error: createError } = await AuthModel.create({
 			email: requestData.email,
 			lastName: requestData.lastName,
 			name: requestData.name,

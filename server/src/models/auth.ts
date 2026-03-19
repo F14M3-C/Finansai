@@ -15,10 +15,10 @@ export const selectByEmail = async (email: string) => {
 	}
 };
 
-export const createUser = async (data: UserCreateInput) => {
+export const create = async (data: UserCreateInput) => {
 	try {
-		await prisma.user.create({ data });
-		return {};
+		const result = await prisma.user.create({ data });
+		return { result };
 	} catch (error) {
 		console.error(error);
 		return { error };
