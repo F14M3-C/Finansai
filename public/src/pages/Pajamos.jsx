@@ -189,7 +189,7 @@ export default function Pajamos() {
                   </div>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="table table-sm">
+                  <table className="table table-lg">
                     <thead>
                       <tr className="border-b border-base-200">
                         <th className="text-xs font-bold uppercase text-base-content/50">Operacija</th>
@@ -215,7 +215,7 @@ export default function Pajamos() {
                               </div>
                             </div>
                           </td>
-                          <td><div className="badge badge-outline border-base-300 text-[10px] font-bold">{item.category}</div></td>
+                          <td><div className="badge badge-outline border-base-300 text-sm font-bold">{item.category}</div></td>
                           <td className="text-base-content/60 font-medium text-sm">{item.date}</td>
                           <td className="text-right font-black text-emerald-600">+€{item.amount}</td>
                           <td className="text-center">
