@@ -102,7 +102,7 @@ export default function Dashboard() {
               <div className="card bg-base-100 shadow-sm border border-base-300">
                 <div className="card-body p-5">
                   <div className="flex justify-between items-center mb-2">
-                    <div className="bg-primary/10 text-primary p-2 rounded-lg">
+                    <div className="bg-orange-100 text-primary p-2 rounded-lg">
                       <span className="material-symbols-outlined">account_balance_wallet</span>
                     </div>
                     <span className="badge badge-ghost text-xs font-bold">Likutis</span>
@@ -183,7 +183,7 @@ export default function Dashboard() {
                           <td>
                             <div className="flex items-center gap-3">
                               <div className="avatar placeholder">
-                                <div className="bg-primary/10 text-primary rounded w-10">
+                                <div className="bg-orange-100 text-primary rounded w-10">
                                   <span className="material-symbols-outlined text-xl">work</span>
                                 </div>
                               </div>
@@ -231,7 +231,7 @@ export default function Dashboard() {
                           <td>
                             <div className="flex items-center gap-3">
                               <div className="avatar placeholder">
-                                <div className="bg-primary/10 text-primary rounded w-10">
+                                <div className="bg-orange-100 text-primary rounded w-10">
                                   <span className="material-symbols-outlined text-xl">computer</span>
                                 </div>
                               </div>
@@ -304,7 +304,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Insight Card */}
-                <div className="card bg-primary/5 border border-primary/20">
+                <div className="card bg-orange-50 border border-orange-200">
                   <div className="card-body p-6">
                     <div className="flex items-center gap-3 mb-3">
                       <span className="material-symbols-outlined text-primary">lightbulb</span>
@@ -345,7 +345,7 @@ export default function Dashboard() {
             </div>
             <div className="space-y-1">
               <p className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-base-content/40">Pagrindinis</p>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold transition-all bg-primary/10 text-primary border-r-4 border-primary">
+              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold transition-all bg-orange-100 text-primary border-r-4 border-primary">
                 <span className="material-symbols-outlined">dashboard</span>
                 Apžvalga
               </a>
