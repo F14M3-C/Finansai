@@ -1,6 +1,8 @@
 import { body, matchedData, validationResult } from "express-validator";
 import { type NextFunction, type Request, type Response } from "express";
 import argon2 from "argon2";
+import Passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 
 import * as AuthModel from "../models/auth";
 import * as UserModel from "../models/user";
@@ -17,12 +19,30 @@ const bodyLastName = body("lastName")
 	.isString()
 	.isAlphanumeric();
 const bodyEmail = body("email").trim().escape().notEmpty().isEmail();
-const bodyPassword = body("password")
+const bodyUsername = body("username").trim().escape().notEmpty().isEmail();
+const bodyPasswordRegister = body("password")
 	.trim()
 	.escape()
 	.notEmpty()
 	.isLength({ min: 8 });
+const bodyPassword = body("password").trim().escape().notEmpty();
 // .isStrongPassword({ minLength: 8 });
+
+Passport.use(
+	new LocalStrategy(async function verify(email: string, password: string, cb) {
+		const { result: user, error } = await AuthModel.selectByEmail(email);
+		if (error) return cb(error);
+
+		try {
+			if (await argon2.verify(user!.password, password)) {
+				return cb(null, user);
+			}
+			return cb(null, false);
+		} catch (error: any) {
+			return cb(error);
+		}
+	}),
+);
 
 const validate = (req: Request, res: Response, next: NextFunction) => {
 	const result = validationResult(req);
@@ -48,36 +68,40 @@ export const checkAuth = [
 ];
 
 export const login = [
-	bodyEmail,
+	bodyUsername,
 	bodyPassword,
 	validate,
-	async (req: Request, res: Response) => {
-		const requestData = matchedData(req);
-
-		// Fetch account from email and if it exists, compare passwords before authenticating
-		const { error, result: user } = await AuthModel.selectByEmail(
-			requestData.email,
-		);
-		if (error) return res.sendStatus(500);
-
-		const loginSuccess = await argon2.verify(
-			user!.password,
-			requestData.password,
-		);
-
-		if (loginSuccess) {
-			return res.sendStatus(200);
-		}
-
-		return res.sendStatus(401);
+	Passport.authenticate("local"),
+	(req: Request, res: Response) => {
+		return res.sendStatus(200);
 	},
+	// async (req: Request, res: Response) => {
+	// 	const requestData = matchedData(req);
+
+	// 	// Fetch account from email and if it exists, compare passwords before authenticating
+	// 	const { error, result: user } = await AuthModel.selectByEmail(
+	// 		requestData.email,
+	// 	);
+	// 	if (error) return res.sendStatus(500);
+
+	// 	const loginSuccess = await argon2.verify(
+	// 		user!.password,
+	// 		requestData.password,
+	// 	);
+
+	// 	if (loginSuccess) {
+	// 		return res.sendStatus(200);
+	// 	}
+
+	// 	return res.sendStatus(401);
+	// },
 ];
 
 export const register = [
 	bodyName,
 	bodyLastName,
 	bodyEmail,
-	bodyPassword,
+	bodyPasswordRegister,
 	validate,
 	async (req: Request, res: Response) => {
 		const requestData = matchedData(req);
