@@ -44,6 +44,20 @@ Passport.use(
 	}),
 );
 
+Passport.serializeUser(function (user: any, cb) {
+	process.nextTick(function () {
+		cb(null, user.id);
+	});
+});
+
+Passport.deserializeUser(function (id: any, cb) {
+	process.nextTick(async function () {
+		const { result: user, error } = await UserModel.selectById(id);
+		if (error) return cb(null, false);
+		return cb(null, user);
+	});
+});
+
 const validate = (req: Request, res: Response, next: NextFunction) => {
 	const result = validationResult(req);
 	if (result.isEmpty()) next();
@@ -55,15 +69,14 @@ export const isAuthenticated = (
 	res: Response,
 	next: NextFunction,
 ) => {
-	// Return 401 if we are not authenticated.
-	next();
+	if (req.user) return next();
+	res.sendStatus(401);
 };
 
 export const checkAuth = [
 	isAuthenticated,
 	async (req: Request, res: Response) => {
-		// If we are authenticated, return info of the authenticated user.
-		res.sendStatus(501);
+		res.status(200).send(req.user);
 	},
 ];
 
@@ -75,26 +88,6 @@ export const login = [
 	(req: Request, res: Response) => {
 		return res.sendStatus(200);
 	},
-	// async (req: Request, res: Response) => {
-	// 	const requestData = matchedData(req);
-
-	// 	// Fetch account from email and if it exists, compare passwords before authenticating
-	// 	const { error, result: user } = await AuthModel.selectByEmail(
-	// 		requestData.email,
-	// 	);
-	// 	if (error) return res.sendStatus(500);
-
-	// 	const loginSuccess = await argon2.verify(
-	// 		user!.password,
-	// 		requestData.password,
-	// 	);
-
-	// 	if (loginSuccess) {
-	// 		return res.sendStatus(200);
-	// 	}
-
-	// 	return res.sendStatus(401);
-	// },
 ];
 
 export const register = [
@@ -122,5 +115,15 @@ export const register = [
 		if (createError) return res.sendStatus(500);
 
 		res.sendStatus(200);
+	},
+];
+
+export const logout = [
+	isAuthenticated,
+	(req: Request, res: Response, next: NextFunction) => {
+		req.logout((err) => {
+			if (err) return next(err);
+			res.sendStatus(200);
+		});
 	},
 ];

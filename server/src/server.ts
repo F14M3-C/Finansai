@@ -10,18 +10,6 @@ const { SESSION_SECRET } = process.env;
 
 const app = express();
 
-passport.serializeUser(function (user: any, cb) {
-	process.nextTick(function () {
-		cb(null, user.id);
-	});
-});
-
-passport.deserializeUser(function (user: any, cb) {
-	process.nextTick(function () {
-		return cb(null, user);
-	});
-});
-
 app.use(
 	expressSession({
 		cookie: {
@@ -37,6 +25,7 @@ app.use(
 		}),
 	}),
 );
+app.use(passport.authenticate("session"));
 app.use(express.json());
 
 const PORT = 3000;
