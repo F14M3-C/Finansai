@@ -29,31 +29,10 @@ function SideBar(){
                 <span className="material-symbols-outlined">shopping_cart</span>
                 Išlaidos
               </a>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
-                <span className="material-symbols-outlined">category</span>
-                Kategorijos
-              </a>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
-                <span className="material-symbols-outlined">bar_chart</span>
-                Analitika
-              </a>
+
             </div>
             <div className="divider"></div>
-            <div className="space-y-1">
-              <p className="px-4 py-2 text-[10px] font-black uppercase tracking-widest text-base-content/40">Admin Valdymas</p>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
-                <span className="material-symbols-outlined">group</span>
-                Naudotojų valdymas
-              </a>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
-                <span className="material-symbols-outlined">history_edu</span>
-                Įvykių žurnalas
-              </a>
-              <a className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold hover:bg-base-200 transition-all">
-                <span className="material-symbols-outlined">security</span>
-                Saugumo nustatymai
-              </a>
-            </div>
+
             <div className="mt-auto p-4 bg-base-200/50 rounded-2xl flex items-center gap-4">
               <div className="avatar online">
                 <div className="w-10 rounded-full bg-primary/20 flex items-center justify-center">

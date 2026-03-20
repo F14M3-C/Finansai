@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate, Link } from "react-router";
+import AuthContext from "./AuthContext";
 
 export default function Login() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const {setIsAuth, setAuthUser, isAuth, authUser } = useContext(AuthContext);
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		const response = await fetch("/api/auth/login", {
 			method: "POST",
 			headers: {
+        "credentials":  "include",
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ username: email, password }),
@@ -23,13 +26,15 @@ export default function Login() {
 		const data = await response.json();
 
 		console.log(data);
+		setAuthUser(data.user);
+    	setIsAuth(true);
 	};
 
-	// useEffect(() => {
-	//   if(user){
-	//     navigate("")
-	//   }
-	// }, [])
+
+
+    useEffect(() => {
+      if(isAuth) navigate("/dashboard")
+    },[isAuth])
 
 	return (
 		<div className="bg-base-200 text-base-content min-h-screen flex items-center justify-center px-4">
@@ -114,7 +119,7 @@ export default function Login() {
 					<button
 						className="btn btn-primary"
 						onClick={() => {
-							setEmail("petras@petraitis.com");
+							setEmail("petras@pertaitis.com");
 							setPassword("password!");
 						}}
 					>
