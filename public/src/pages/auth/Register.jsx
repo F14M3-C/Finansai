@@ -10,8 +10,21 @@ export default function Register() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// Mockup — just navigate to login
-		navigate("/login");
+		const splitName = name.split(" ");
+		if (splitName.length !== 2) return;
+		else if (password !== confirmPassword) return;
+		const firstName = splitName[0];
+		const lastName = splitName[1];
+
+		fetch("/api/auth/register", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ name: firstName, lastName, email, password }),
+		}).then((res) => {
+			if (res.ok) {
+				navigate("/login");
+			}
+		});
 	};
 
 	return (
