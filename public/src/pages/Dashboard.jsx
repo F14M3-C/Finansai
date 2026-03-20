@@ -6,50 +6,49 @@ import SideBar from "../components/SideBar";
 import Footer from "../components/Footer";
 import DashboardHero from "../components/DashboardHero";
 import TransactionsList from "../components/transactions/TranscationsList";
+// import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
+	// const { user } = useAuth();
 
-  return (
-    <div className="bg-base-200 text-base-content min-h-screen">
-      <div className="drawer lg:drawer-open">
-        <input className="drawer-toggle" id="my-drawer-2" type="checkbox" />
+	// console.log(user);
 
-        {/* Main Content */}
-        <div className="drawer-content flex flex-col">
-          {/* Mobile Navbar */}
-          <MobileNavbar />
+	return (
+		<div className="bg-base-200 text-base-content min-h-screen">
+			<div className="drawer lg:drawer-open">
+				<input className="drawer-toggle" id="my-drawer-2" type="checkbox" />
 
-          {/* Top Header */}
-            <Header />
+				{/* Main Content */}
+				<div className="drawer-content flex flex-col">
+					{/* Mobile Navbar */}
+					<MobileNavbar />
 
-          <main className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
-            
-            {/* Dashboard Hero */}
-            <DashboardHero />
+					{/* Top Header */}
+					<Header />
 
-              {/* Core Metrics Grid */}
-              <CoreMetricsGrid />
+					<main className="p-6 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
+						{/* Dashboard Hero */}
+						<DashboardHero />
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+						{/* Core Metrics Grid */}
+						<CoreMetricsGrid />
 
-              {/* Transactions List */}
-              <TransactionsList />
-              
-              {/* Right Sidebar: Categories & Insight */}
-              <RightSidebar />
+						<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+							{/* Transactions List */}
+							<TransactionsList />
 
-            </div>
-          </main>
-        
-        <Footer />
-        </div>
-        {/* Navigation Drawer (Sidebar) */}
-        <SideBar />
+							{/* Right Sidebar: Categories & Insight */}
+							<RightSidebar />
+						</div>
+					</main>
 
-      </div>
-    </div>
-  );
+					<Footer />
+				</div>
+				{/* Navigation Drawer (Sidebar) */}
+				<SideBar />
+			</div>
+		</div>
+	);
 }
-
 
 export default Dashboard;
