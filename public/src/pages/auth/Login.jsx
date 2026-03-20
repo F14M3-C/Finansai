@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
 	const navigate = useNavigate();
+	const { user, setAuth } = useAuth();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -18,18 +20,20 @@ export default function Login() {
 
 		if (!response.ok) {
 			console.log("Neteisingas El.paštas arba Slaptažodis");
+			return;
 		}
 
-		const data = await response.json();
+		const { user } = await response.json();
 
-		console.log(data);
+		setAuth(user);
+		navigate("/dashboard");
 	};
 
-	// useEffect(() => {
-	//   if(user){
-	//     navigate("")
-	//   }
-	// }, [])
+	useEffect(() => {
+		if (user) {
+			navigate("/dashboard");
+		}
+	}, []);
 
 	return (
 		<div className="bg-base-200 text-base-content min-h-screen flex items-center justify-center px-4">
@@ -114,7 +118,7 @@ export default function Login() {
 					<button
 						className="btn btn-primary"
 						onClick={() => {
-							setEmail("petras@petraitis.com");
+							setEmail("petras@pertaitis.com");
 							setPassword("password!");
 						}}
 					>
