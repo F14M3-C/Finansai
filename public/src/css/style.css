@@ -1,18 +1,4 @@
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default;
-}
-
-@theme {
-  --color-primary: #ec5b13;
-  --color-primary-content: #ffffff;
-  --font-sans: "Public Sans", sans-serif;
-}
-
+/* Removed v4 tailwind import since we are using CDN for now to preserve old DaisyUI visual structure */
 body {
   font-family: "Public Sans", sans-serif;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }

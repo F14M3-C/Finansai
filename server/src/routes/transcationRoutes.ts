@@ -34,15 +34,10 @@ router.post('/', async (req: Request, res: Response) => {
     }
 });
 
-// Gauti konkrečios paskyros (account) transakcijas
-router.get('/:accountId', async (req: Request, res: Response) => {
+// Gauti visas transakcijas (senas būdas)
+router.get('/', async (req: Request, res: Response) => {
     try {
-        const { accountId } = req.params;
-        const transactions = await prisma.transaction.findMany({
-            where: {
-                accountId: parseInt(accountId)
-            }
-        });
+        const transactions = await prisma.transaction.findMany();
         res.json({ data: transactions });
     } catch (error) {
         console.error('Error gaunant transakcijas:', error);
