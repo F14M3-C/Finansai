@@ -1,4 +1,31 @@
 services:
+  frontend:
+    build: ./public
+    ports:
+      - 5173:5173
+    volumes:
+      - ./public/src:/app/src
+      - ./public/index.html:/app/index.html
+      - ./public/vite.config.js:/app/vite.config.js
+    networks:
+      - frontend
+
+  server:
+    build: ./server
+    ports:
+      - 3000:3000
+    environment:
+      - DATABASE_URL=mysql://root:hunter2@db:3306/finansai?connectionLimit=10&allowPublicKeyRetrieval=true&useSSL=false
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
+    volumes:
+      - ./server/src:/app/src
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - db
+
   db:
     image: mysql
     restart: always
@@ -10,6 +37,7 @@ services:
       - dbdata:/var/lib/mysql
     networks:
       - backend
+
   phpmyadmin:
     image: phpmyadmin
     restart: always
@@ -18,7 +46,6 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      # PMA_ARBITRARY: 1
     networks:
       - backend
 

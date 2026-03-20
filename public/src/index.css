@@ -1,0 +1,4 @@
+/* Removed v4 tailwind import since we are using CDN for now to preserve old DaisyUI visual structure */
+body {
+  font-family: "Public Sans", sans-serif;
+}

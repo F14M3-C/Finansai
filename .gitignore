@@ -1,0 +1,9 @@
+shell.nix
+example.html
+exMySql.md
+
+
+node_modules/
+**/node_modules/
+**/node_modules/.bin/
+
