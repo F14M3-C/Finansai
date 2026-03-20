@@ -118,20 +118,11 @@ export default function Login() {
 					<button
 						className="btn btn-primary"
 						onClick={() => {
-							setEmail("petras@pertaitis.com");
-							setPassword("password!");
+							setEmail("TomasTomaitis@example.com");
+							setPassword("12345678");
 						}}
 					>
-						Petras Petraitis
-					</button>
-					<button
-						className="btn btn-primary"
-						onClick={() => {
-							setEmail("jonas@jonaitis.com");
-							setPassword("password!");
-						}}
-					>
-						Jonais Jonaitis
+						Tomas Tomaitis
 					</button>
 				</div>
 			</div>
