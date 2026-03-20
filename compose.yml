@@ -14,6 +14,10 @@ services:
     build: ./server
     ports:
       - 3000:3000
+    environment:
+      - DATABASE_URL=mysql://root:hunter2@db:3306/finansai?connectionLimit=10&allowPublicKeyRetrieval=true&useSSL=false
+      - DATABASE_HOST=db
+      - DATABASE_PORT=3306
     volumes:
       - ./server/src:/app/src
     networks:
