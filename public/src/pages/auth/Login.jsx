@@ -26,6 +26,7 @@ export default function Login() {
 		const { user } = await response.json();
 
 		setAuth(user);
+		navigate("/dashboard");
 	};
 
 	useEffect(() => {
