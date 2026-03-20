@@ -13,14 +13,12 @@ export default defineConfig({
 		watch: {
 			usePolling: true,
 		},
-		server: {
-			proxy: {
-				"/api": {
-					// eslint-disable-next-line no-undef
-					target: process.env.BACKEND_URL || "http://localhost:3000",
-					changeOrigin: true,
-					secure: false,
-				},
+		proxy: {
+			"/api": {
+				// eslint-disable-next-line no-undef
+				target: process.env.BACKEND_URL || "http://localhost:3000",
+				changeOrigin: true,
+				secure: false,
 			},
 		},
 	},
