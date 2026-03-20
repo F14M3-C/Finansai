@@ -81,7 +81,8 @@ export const login = [
 	validate,
 	Passport.authenticate("local"),
 	(req: Request, res: Response) => {
-		return res.sendStatus(200);
+		delete (req.user! as any).password;
+		return res.status(200).send({ user: req.user });
 	},
 ];
 
